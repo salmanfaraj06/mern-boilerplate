@@ -28,6 +28,7 @@ export const register = async (req, res, next) => {
         );
 
         res.status(200).json({ result, token });
+        console.log("User registered successfully");
     } catch (error) {
         next(error); // Passes the error to the error-handling middleware
     }
@@ -56,6 +57,7 @@ export const login = async (req, res, next) => {
         );
 
         res.status(200).json({ result: existingUser, token });
+        console.log("User logged in successfully");
     } catch (error) {
         next(error); 
     }
