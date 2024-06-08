@@ -2,6 +2,7 @@
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import rateLimit from 'express-rate-limit';
 
 export const register = async (req, res, next) => {
     const { username, email, password } = req.body;
@@ -34,31 +35,38 @@ export const register = async (req, res, next) => {
     }
 }
 
-export const login = async (req, res, next) => {
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: "Too many login attempts from this IP, please try again after 15 minutes"
+  });
+  
+
+  export const login = [loginLimiter, async (req, res, next) => {
     const { email, password } = req.body;
-
+  
     try {
-        const existingUser = await User.findOne({ email });
-
-        if (!existingUser) {
-            return res.status(404).json({ message: "User doesn't exist" });
-        }
-
-        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
-
-        if (!isPasswordCorrect) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
-
-        const token = jwt.sign(
-            { email: existingUser.email, id: existingUser._id },
-            process.env.JWT_SECRET || "test",
-            { expiresIn: "1h" }
-        );
-
-        res.status(200).json({ result: existingUser, token });
-        console.log("User logged in successfully");
+      const existingUser = await User.findOne({ email });
+  
+      if (!existingUser) {
+        return res.status(404).json({ message: "User doesn't exist" });
+      }
+  
+      const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
+  
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ message: "Invalid credentials" });
+      }
+  
+      const token = jwt.sign(
+        { email: existingUser.email, id: existingUser._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+  
+      res.status(200).json({ result: existingUser, token });
+      console.log("User logged in successfully");
     } catch (error) {
         next(error); 
     }
-}
+  }];
