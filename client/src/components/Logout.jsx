@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/user/userslice';
+import { logout } from '../redux/user/userSlice';
 import { persistor } from '../redux/store';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 

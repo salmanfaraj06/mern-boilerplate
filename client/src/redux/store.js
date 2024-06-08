@@ -10,7 +10,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import userReducer from './user/userslice';
+import userReducer from './user/userSlice';
 
 // Create a persist config for the user slice
 const persistConfig = {

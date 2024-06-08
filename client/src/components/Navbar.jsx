@@ -1,17 +1,24 @@
-// src/components/Navbar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const currentUser = useSelector((state) => state.user.currentUser);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("currentUser:", currentUser);
+    if (currentUser) {
+      console.log("Profile Pic:", currentUser.profilePic);
+    }
+  }, [currentUser]);
 
   return (
     <nav className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button*/}
+            {/* Mobile menu button */}
             <button
               type="button"
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -20,7 +27,7 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
-              {/* Icon when menu is closed. */}
+              {/* Icon when menu is closed */}
               <svg
                 className={`${isMobileMenuOpen ? "hidden" : "block"} h-6 w-6`}
                 xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +43,7 @@ const Navbar = () => {
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
-              {/* Icon when menu is open. */}
+              {/* Icon when menu is open */}
               <svg
                 className={`${isMobileMenuOpen ? "block" : "hidden"} h-6 w-6`}
                 xmlns="http://www.w3.org/2000/svg"
@@ -68,6 +75,20 @@ const Navbar = () => {
                 >
                   Home
                 </Link>
+              </div>
+            </div>
+          </div>
+          <div className="hidden sm:block">
+            {currentUser ? (
+              <div className="flex items-center space-x-4">
+                <img
+                  src={currentUser.profilePic}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full"
+                />
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
                 <Link
                   to="/login"
                   className="text-gray-900 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -81,7 +102,7 @@ const Navbar = () => {
                   Signup
                 </Link>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -98,18 +119,30 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <Link
-            to="/login"
-            className="text-gray-900 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className="text-gray-900 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Signup
-          </Link>
+          {currentUser ? (
+            <div className="flex items-center space-x-4">
+              <img
+                src={currentUser.profilePic}
+                alt="Profile"
+                className="w-8 h-8 rounded-full"
+              />
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="text-gray-900 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="text-gray-900 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Signup
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

@@ -3,7 +3,7 @@ import { FaGoogle } from "react-icons/fa";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { app } from "../Firebase";
 import { useDispatch } from "react-redux";
-import { setUser, setError, setSuccess } from "../redux/user/userslice";
+import { setUser, setError, setSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function OAuth() {
