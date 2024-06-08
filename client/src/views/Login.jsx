@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setLoading, setError, setSuccess, clearStatus } from '../redux/user/userslice';
+import OAuth from 'components/OAuth';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -105,7 +106,7 @@ const Login = () => {
           <div className="mb-6">
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center mb-2 justify-center"
               disabled={loading}
               aria-busy={loading}
             >
@@ -129,6 +130,7 @@ const Login = () => {
                 'Log In'
               )}
             </button>
+            <OAuth />
           </div>
           {error.general && <div className="mb-4 text-red-500">{error.general}</div>}
           {success && <div className="mb-4 text-green-500">{success}</div>}

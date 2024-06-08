@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import OAuth from '../components/OAuth';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -109,7 +110,7 @@ const Signup = () => {
           <div className="mb-6">
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 mb-2 transition duration-300 flex items-center justify-center"
               disabled={loading}
             >
               {loading ? (
@@ -132,6 +133,7 @@ const Signup = () => {
                 'Sign Up'
               )}
             </button>
+            <OAuth />
           </div>
           {error && <div className="mb-4 text-red-500">{error}</div>}
           {success && <div className="mb-4 text-green-500">{success}</div>}
