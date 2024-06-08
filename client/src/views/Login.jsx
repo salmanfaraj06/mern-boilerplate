@@ -40,12 +40,12 @@ const Login = () => {
       if (response.ok) {
         console.log('Login successful:', data);
         dispatch(setSuccess('Login successful!'));
-        dispatch(setUser(data.user)); // Assuming the API returns user data in a 'user' field
+        dispatch(setUser(data.result));
         setFormData({
           email: '',
           password: '',
         });
-        navigate('/dashboard'); // Use the correct path for your dashboard
+        navigate('/dashboard'); 
       } else {
         if (data.errors) {
           Object.keys(data.errors).forEach((key) => {

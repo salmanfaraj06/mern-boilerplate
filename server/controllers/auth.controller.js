@@ -103,6 +103,8 @@ const generateUniqueUsername = async (baseName) => {
 
 export const googleLogin = async (req, res, next) => {
   const { email, name, photo } = req.body;
+  console.log("Google login request received");
+  console.log("Email:", email + "\nName:", name + "\nPhoto:", photo);
 
   try {
     let user = await User.findOne({ email });
@@ -116,7 +118,7 @@ export const googleLogin = async (req, res, next) => {
         email,
         username,
         password: hashedPassword,
-        photo,
+        profilePic: photo,
       });
 
       console.log("User registered successfully");

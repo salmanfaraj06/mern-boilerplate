@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LogoutButton from "./Logout";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -86,6 +87,7 @@ const Navbar = () => {
                   alt="Profile"
                   className="w-8 h-8 rounded-full"
                 />
+                <LogoutButton />
               </div>
             ) : (
               <div className="flex items-center space-x-4">
@@ -126,6 +128,7 @@ const Navbar = () => {
                 alt="Profile"
                 className="w-8 h-8 rounded-full"
               />
+              <LogoutButton />
             </div>
           ) : (
             <>
