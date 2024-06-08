@@ -1,39 +1,46 @@
-// SignupForm.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    id: '',
     username: '',
     email: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
     try {
-      const res = await fetch('/api/auth/register', {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      if (res.ok) {
+      const data = await response.json();
+      if (response.ok) {
         console.log('Form submitted:', data);
+        setSuccess('User created successfully!');
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+        });
       } else {
         setError(data.message || 'An error occurred');
       }
@@ -50,15 +57,6 @@ const Signup = () => {
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign Up</h2>
         
         <form onSubmit={handleSubmit}>
-          {/* ID Field (hidden) */}
-          <input
-            type="hidden"
-            name="id"
-            id="id"
-            value={formData.id}
-            onChange={handleChange}
-          />
-
           {/* Username Field */}
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">
@@ -136,6 +134,7 @@ const Signup = () => {
             </button>
           </div>
           {error && <div className="mb-4 text-red-500">{error}</div>}
+          {success && <div className="mb-4 text-green-500">{success}</div>}
         </form>
 
         {/* Login Link */}
