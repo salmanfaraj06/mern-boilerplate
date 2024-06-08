@@ -76,6 +76,14 @@ const Navbar = () => {
                 >
                   Home
                 </Link>
+                {currentUser && (
+                  <Link
+                    to="/dashboard"
+                    className="text-gray-900 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Dashboard
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -121,6 +129,14 @@ const Navbar = () => {
           >
             Home
           </Link>
+          {currentUser && (
+            <Link
+              to="/dashboard"
+              className="text-gray-900 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Dashboard
+            </Link>
+          )}
           {currentUser ? (
             <div className="flex items-center space-x-4">
               <img
