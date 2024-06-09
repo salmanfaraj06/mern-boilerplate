@@ -90,11 +90,13 @@ const Navbar = () => {
           <div className="hidden sm:block">
             {currentUser ? (
               <div className="flex items-center space-x-4">
-                <img
-                  src={currentUser.profilePic}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full"
-                />
+                <Link to="/profile">
+                  <img
+                    src={currentUser.profilePic}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full"
+                  />
+                </Link>
                 <LogoutButton />
               </div>
             ) : (
@@ -139,11 +141,13 @@ const Navbar = () => {
           )}
           {currentUser ? (
             <div className="flex items-center space-x-4">
-              <img
-                src={currentUser.profilePic}
-                alt="Profile"
-                className="w-8 h-8 rounded-full"
-              />
+              <Link to="/profile">
+                <img
+                  src={currentUser.profilePic}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full"
+                />
+              </Link>
               <LogoutButton />
             </div>
           ) : (
