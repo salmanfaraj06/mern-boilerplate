@@ -79,7 +79,13 @@ export const login = [
         { expiresIn: "1h" }
       );
 
-      res.status(200).json({ result: existingUser, token });
+      const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+
+      res
+        .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
+        .status(200)
+        .json({ result: existingUser });
+
       console.log("User logged in successfully");
     } catch (error) {
       next(error);
@@ -130,9 +136,58 @@ export const googleLogin = async (req, res, next) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ result: user, token });
+    const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+
+    res
+      .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
+      .status(200)
+      .json({ result: user });
+
     console.log("User logged in successfully");
   } catch (error) {
     next(error);
+  }
+};
+export const update = async (req, res) => {
+  try {
+    const { username, email, password, profilePicture } = req.body;
+    const userId = req.user._id;
+
+    const updatedData = {};
+    if (username) updatedData.username = username;
+    if (email) updatedData.email = email;
+    if (password) updatedData.password = await hashPassword(password);
+    if (profilePicture) updatedData.profilePicture = profilePicture;
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating user",
+      error: error.message,
+    });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    await User.findByIdAndDelete(userId);
+
+    res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting user",
+      error: error.message,
+    });
   }
 };
